@@ -14,10 +14,38 @@ from sklearn.preprocessing import LabelEncoder
 from scipy.stats import normaltest
 from scipy.linalg import svd
 
+#checks on the data 
+data['carat'] = pd.to_numeric(data['carat'], errors='coerce')
+data['depth'] = pd.to_numeric(data['depth'], errors='coerce')
+data['table'] = pd.to_numeric(data['table'], errors='coerce')
+data['x'] = pd.to_numeric(data['x'], errors='coerce')
+data['y'] = pd.to_numeric(data['y'], errors='coerce')
+data['z'] = pd.to_numeric(data['z'], errors='coerce')
+data['price'] = pd.to_numeric(data['price'], errors='coerce')
 
+for col in ['carat', 'depth', 'table', 'x', 'y', 'z', 'price']:
+    if data[data[col] < 0].shape[0] > 0:
+        print(f"Corrupted data in {col}: ", data[data[col] < 0].shape[0])
+
+for col in ['carat', 'x', 'y', 'z']:
+    if data[data[col] == 0].shape[0] > 0:
+        print(f"Corrupted data in {col}: ", data[data[col] == 0].shape[0])
+
+expected_cuts = ['Ideal', 'Premium', 'Very Good', 'Good', 'Fair']
+expected_colors = ['D', 'E', 'F', 'G', 'H', 'I', 'J']
+expected_clarity = ['SI1', 'VS2', 'SI2', 'VS1', 'VVS2', 'VVS1', 'IF', 'I1']
+
+if not set(data['cut']).issubset(expected_cuts):
+    print("Unexpected values in 'cut'")
+if not set(data['color']).issubset(expected_colors):
+    print("Unexpected values in 'color'")
+if not set(data['clarity']).issubset(expected_clarity):
+    print("Unexpected values in 'clarity'")
 data=pd.read_csv('diamonds.csv')
 data.describe()
 
+#summary statistics
+print(data[['carat', 'depth', 'table', 'price', 'x', 'y', 'z']].describe())
 
 #bar charts for non-numerical attributes
 fig, axs = plt.subplots(1, 3, figsize=(15, 4))
