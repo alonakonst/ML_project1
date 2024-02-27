@@ -18,6 +18,64 @@ from scipy.linalg import svd
 data=pd.read_csv('diamonds.csv')
 data.describe()
 
+# Convert 'carat', 'depth', 'table', 'x', 'y', 'z' columns to numeric
+cols_to_convert = ['carat', 'depth', 'table', 'x', 'y', 'z']
+
+for col in cols_to_convert:
+    data[col] = pd.to_numeric(data[col], errors='coerce')
+print(data.dtypes)
+
+#Give an account of whether there are data issues (i.e. missing values or corrupted data) and describe them if so.
+print(data['cut'].value_counts())
+print(data['color'].value_counts())
+print(data['clarity'].value_counts())
+
+# Check for missing values in the entire dataset
+print("Missing values in each column:")
+print(data.isnull().sum())
+
+# Check for duplicated rows
+print("Duplicated rows: ", data.duplicated().sum())
+
+# Check for rows where all columns are missing
+print("Rows with all missing values: ", data.isnull().all(axis=1).sum())
+
+#checks for negative values in columns that should only contain positive values (like 'carat', 'depth', 'table', 'x', 'y', 'z', 'price') 
+#and zero values in columns that should not contain zero ('carat', 'x', 'y', 'z'). 
+#checks if all values in the 'cut', 'color', and 'clarity' columns are within the expected categories.'
+# Convert columns to the proper datatype
+data['carat'] = pd.to_numeric(data['carat'], errors='coerce')
+data['depth'] = pd.to_numeric(data['depth'], errors='coerce')
+data['table'] = pd.to_numeric(data['table'], errors='coerce')
+data['x'] = pd.to_numeric(data['x'], errors='coerce')
+data['y'] = pd.to_numeric(data['y'], errors='coerce')
+data['z'] = pd.to_numeric(data['z'], errors='coerce')
+data['price'] = pd.to_numeric(data['price'], errors='coerce')
+
+# Check for negative values in columns that should only contain positive values
+for col in ['carat', 'depth', 'table', 'x', 'y', 'z', 'price']:
+    if data[data[col] < 0].shape[0] > 0:
+        print(f"Corrupted data in {col}: ", data[data[col] < 0].shape[0])
+
+# Check for zero values in columns that should not contain zero
+for col in ['carat', 'x', 'y', 'z']:
+    if data[data[col] == 0].shape[0] > 0:
+        print(f"Corrupted data in {col}: ", data[data[col] == 0].shape[0])
+
+# Check for values in 'cut', 'color', 'clarity' that are not in the expected categories
+expected_cuts = ['Ideal', 'Premium', 'Very Good', 'Good', 'Fair']
+expected_colors = ['D', 'E', 'F', 'G', 'H', 'I', 'J']
+expected_clarity = ['SI1', 'VS2', 'SI2', 'VS1', 'VVS2', 'VVS1', 'IF', 'I1']
+
+if not set(data['cut']).issubset(expected_cuts):
+    print("Unexpected values in 'cut'")
+if not set(data['color']).issubset(expected_colors):
+    print("Unexpected values in 'color'")
+if not set(data['clarity']).issubset(expected_clarity):
+    print("Unexpected values in 'clarity'")
+
+# Print summary statistics for specific columns
+print(data[['carat', 'depth', 'table', 'price', 'x', 'y', 'z']].describe())
 
 #bar charts for non-numerical attributes
 fig, axs = plt.subplots(1, 3, figsize=(15, 4))
