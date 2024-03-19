@@ -14,7 +14,9 @@ from sklearn.preprocessing import LabelEncoder
 from scipy.stats import normaltest
 from scipy.linalg import svd
 
-#checks on the data 
+data=pd.read_csv('diamonds.csv')
+
+#data quality
 data['carat'] = pd.to_numeric(data['carat'], errors='coerce')
 data['depth'] = pd.to_numeric(data['depth'], errors='coerce')
 data['table'] = pd.to_numeric(data['table'], errors='coerce')
@@ -41,8 +43,6 @@ if not set(data['color']).issubset(expected_colors):
     print("Unexpected values in 'color'")
 if not set(data['clarity']).issubset(expected_clarity):
     print("Unexpected values in 'clarity'")
-data=pd.read_csv('diamonds.csv')
-data.describe()
 
 #summary statistics
 print(data[['carat', 'depth', 'table', 'price', 'x', 'y', 'z']].describe())
