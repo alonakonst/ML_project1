@@ -236,10 +236,10 @@ X_mean = np.mean(X, axis=0)
 
 X_std = np.std(X, axis=0)
 
-Y = (X - X_mean)/X_std
+X = (X - X_mean)/X_std
 
 # PCA by computing SVD of Y
-U, S, Vh = svd(Y, full_matrices=False)
+U, S, Vh = svd(X, full_matrices=False)
 
 # Compute variance explained by principal components
 rho = (S * S) / (S * S).sum()
@@ -266,7 +266,7 @@ sum(rho[0:2])
 
 #data projection on pc1 and pc2
 V = Vh.T
-Z = Y @ V
+Z = X @ V
 i = 0
 j = 1
 f = figure()
@@ -306,13 +306,13 @@ S_matrix = np.round(S[:5], decimals=2)
 
 #plots of price against each of PC1-PC5
 fig, axs = plt.subplots(2, 3, figsize=(15, 10))  # 2 rows, 3 columns
-PC_values = [np.dot(Y, V[:, i]) for i in range(5)]  # Compute PC values for all 5 principal components
-y_values=data['price']
+PC_values = [np.dot(X, V[:, i]) for i in range(5)]  # Compute PC values for all 5 principal components
+y=data['price']
 for i in range(2):
     for j in range(3):
         idx = i * 3 + j
         if idx < 5:
-            axs[i, j].scatter(PC_values[idx], y_values, color='darkred')
+            axs[i, j].scatter(PC_values[idx], y, color='darkred')
             axs[i, j].set_xlabel('PC{}'.format(idx + 1))
             axs[i, j].set_title('Scatter Plot of PC{} vs price'.format(idx + 1))
             axs[i, j].grid(True)
@@ -322,3 +322,4 @@ for i in range(2):
 plt.tight_layout()
 plt.savefig('PCAsvsY.png')
 plt.show()
+
