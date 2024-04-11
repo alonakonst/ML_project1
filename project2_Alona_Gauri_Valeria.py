@@ -142,7 +142,7 @@ plt.grid(True)
 plt.legend()
 plt.show()
 
-Regression Part B (1)
+#Regression Part B (1)
 
 from sklearn.neural_network import MLPRegressor
 #defining neural network 
@@ -273,14 +273,14 @@ def paired_test(zA, zB):
     return p,CI
 
 
-print( "p-value of pair: NN and Ridge is", paired_test(two_layer_table['NN error'],two_layer_table['ridge_error'])[0], "and CI is:", paired_test(two_layer_table['NN error'], two_layer_table['ridge_error'])[1])
+print( "p-value of pair: NN and Ridge is", paired_test(two_layer_results['NN error'],two_layer_results['ridge_error'])[0], "and CI is:", paired_test(two_layer_results['NN error'], two_layer_results['ridge_error'])[1])
 
-print( "p-value of pair: NN and Baseline is", 	paired_test(two_layer_table['NN error'], 	two_layer_table['baseline_error'])[0], 
-	"and CI is:", paired_test(two_layer_table['NN error'], 	two_layer_table['baseline_error'])[1])
+print( "p-value of pair: NN and Baseline is", 	paired_test(two_layer_results['NN error'], 	two_layer_results['baseline_error'])[0],
+	"and CI is:", paired_test(two_layer_results['NN error'], 	two_layer_results['baseline_error'])[1])
 
-print( "p-value of pair: Ridge and Baseline is", 	paired_test(two_layer_table['ridge_error'], 
-   	two_layer_table['baseline_error'])[0], 
-      	"and CI is:", paired_test(two_layer_table['ridge_error'], 	two_layer_table['baseline_error'])[1])
+print( "p-value of pair: Ridge and Baseline is", 	paired_test(two_layer_results['ridge_error'],
+   	two_layer_results['baseline_error'])[0],
+      	"and CI is:", paired_test(two_layer_results['ridge_error'], 	two_layer_results['baseline_error'])[1])
 
 
 
